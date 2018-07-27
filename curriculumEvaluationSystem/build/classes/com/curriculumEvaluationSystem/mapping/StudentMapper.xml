@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.curriculumEvaluationSystem.dao.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.curriculumEvaluationSystem.bean.Student" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="student_number" property="studentNumber" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="dept" property="dept" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, student_number, img, name, sex, age, dept, class_name, address, phone, other
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.curriculumEvaluationSystem.bean.Student" >
+    insert into student (id, student_number, img, name, sex, age, 
+      dept, class_name, address, 
+      phone, other)
+    values (#{id,jdbcType=INTEGER}, #{studentNumber,jdbcType=VARCHAR}, 
+     #{img,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{age,jdbcType=INTEGER}, 
+      #{dept,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective"  useGeneratedKeys="true" keyProperty="id" parameterType="com.curriculumEvaluationSystem.bean.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="studentNumber != null" >
+        student_number,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="dept != null" >
+        dept,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="studentNumber != null" >
+        #{studentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="dept != null" >
+        #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.curriculumEvaluationSystem.bean.Student" >
+    update student
+    <set >
+      <if test="studentNumber != null" >
+        student_number = #{studentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="dept != null" >
+        dept = #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.curriculumEvaluationSystem.bean.Student" >
+    update student
+    set student_number = #{studentNumber,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      age = #{age,jdbcType=INTEGER},
+      dept = #{dept,jdbcType=VARCHAR},
+      class_name = #{className,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.curriculumEvaluationSystem.bean.Student" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where 1=1 
+    <if test="studentNumber != null and studentNumber != ''">
+       and  student_number = #{studentNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="name != null and name != ''">
+       and  name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="phone != null and phone != ''">
+       and  phone = #{phone,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="com.curriculumEvaluationSystem.bean.Student" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+  </select>
+  
+</mapper>

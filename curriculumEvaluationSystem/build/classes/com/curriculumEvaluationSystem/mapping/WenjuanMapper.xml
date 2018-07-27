@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.curriculumEvaluationSystem.dao.WenjuanMapper" >
+  <resultMap id="BaseResultMap" type="com.curriculumEvaluationSystem.bean.Wenjuan" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="wenjuan_title" property="wenjuanTitle" jdbcType="VARCHAR" />
+    <result column="evaluate_contnet" property="evaluateContnet" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, student_id, class_id, wenjuan_title, evaluate_contnet
+  </sql>
+  <sql id="wenjuanSql" >
+    w.id, 
+    w.student_id studentId, 
+    w.class_id classId, 
+    w.wenjuan_title wenjuanTitle, 
+    w.evaluate_contnet evaluateContnet  
+  </sql>
+  <select id="selectByPrimaryKey" resultType="java.util.Map" parameterType="java.lang.Integer" >
+    select 
+    <include refid="wenjuanSql" />,
+    c.classname className, 
+    s.name studentName
+    from wenjuan w
+    LEFT JOIN course_load c ON c.id = w.class_id
+    LEFT JOIN student s ON s.id = w.student_id
+    where w.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from wenjuan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.curriculumEvaluationSystem.bean.Wenjuan" >
+    insert into wenjuan (id, student_id, class_id, wenjuan_title, evaluate_contnet
+      )
+    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{wenjuanTitle,jdbcType=VARCHAR}, #{evaluateContnet,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective"  useGeneratedKeys="true" keyProperty="id" parameterType="com.curriculumEvaluationSystem.bean.Wenjuan" >
+    insert into wenjuan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="wenjuanTitle != null" >
+        wenjuan_title,
+      </if>
+      <if test="evaluateContnet != null" >
+        evaluate_contnet,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="wenjuanTitle != null" >
+        #{wenjuanTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateContnet != null" >
+        #{evaluateContnet,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.curriculumEvaluationSystem.bean.Wenjuan"  >
+    update wenjuan
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="wenjuanTitle != null" >
+        wenjuan_title = #{wenjuanTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateContnet != null" >
+        evaluate_contnet = #{evaluateContnet,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.curriculumEvaluationSystem.bean.Wenjuan" >
+    update wenjuan
+    set wenti_id = #{wentiId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      wenjuan_title = #{wenjuanTitle,jdbcType=VARCHAR},
+      evaluate_contnet = #{evaluateContnet,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByParam" resultType="java.util.Map" parameterType="com.curriculumEvaluationSystem.bean.Wenjuan" >
+    select 
+    <include refid="wenjuanSql" />,
+    c.classname className, 
+    s.name studentName
+    from wenjuan w
+    LEFT JOIN course_load c ON c.id = w.class_id
+    LEFT JOIN student s ON s.id = w.student_id
+    where 1=1 
+    <if test="classId != null and classId != ''">
+       and  w.class_id = #{classId,jdbcType=INTEGER}
+    </if>
+    <if test="studentId != null and studentId != ''">
+       and  w.student_id = #{studentId,jdbcType=INTEGER}
+    </if>
+    <if test="wenjuanTitle != null and studentId != ''">
+       and  w.wenjuan_title = #{wenjuanTitle,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectAll" resultType="java.util.Map" parameterType="com.curriculumEvaluationSystem.bean.Wenjuan" >
+    select 
+    <include refid="wenjuanSql" />,
+    c.classname className, 
+    s.name studentName
+    from wenjuan w
+    LEFT JOIN course_load c ON c.id = w.class_id
+    LEFT JOIN student s ON s.id = w.student_id
+  </select>
+</mapper>

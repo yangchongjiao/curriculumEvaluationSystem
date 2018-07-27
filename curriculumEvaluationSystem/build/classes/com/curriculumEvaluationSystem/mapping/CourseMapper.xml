@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.curriculumEvaluationSystem.dao.CourseMapper" >
+  <resultMap id="BaseResultMap" type="com.curriculumEvaluationSystem.bean.Course" >
+    <id column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="school_time" property="schoolTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    class_id, address, school_time
+  </sql>
+  
+  <sql id="courseSql" >
+    cc.class_id classId, cc.address, cc.school_time schoolTime
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultType="java.util.Map" parameterType="java.lang.Integer" >
+    select 
+    <include refid="courseSql" />,
+    c.classname className 
+    from course cc
+    LEFT JOIN course_load c ON c.id = cc.class_id
+    where class_id = #{classId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from course
+    where class_id = #{classId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.curriculumEvaluationSystem.bean.Course" >
+    insert into course (class_id, address, school_time
+      )
+    values (#{classId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{schoolTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.curriculumEvaluationSystem.bean.Course" >
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="schoolTime != null" >
+        school_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolTime != null" >
+        #{schoolTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.curriculumEvaluationSystem.bean.Course" >
+    update course
+    <set >
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolTime != null" >
+        school_time = #{schoolTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where class_id = #{classId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.curriculumEvaluationSystem.bean.Course" >
+    update course
+    set address = #{address,jdbcType=VARCHAR},
+      school_time = #{schoolTime,jdbcType=VARCHAR}
+    where class_id = #{classId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByParam" resultType="java.util.Map" parameterType="com.curriculumEvaluationSystem.bean.Course" >
+    select 
+    <include refid="courseSql" />,
+    c.classname className 
+    from course cc
+    LEFT JOIN course c   ON c.id = cc.class_id
+    where 1=1 
+    <if test="schoolTime != null and schoolTime != ''">
+       and  cc.school_time = #{schoolTime,jdbcType=VARCHAR}
+    </if>
+    <if test="address != null and address != ''">
+       and  cc.address = #{address,jdbcType=VARCHAR},
+    </if>
+  </select>
+  
+  <select id="selectAll" resultType="java.util.Map" parameterType="com.curriculumEvaluationSystem.bean.Course" >
+    select 
+    <include refid="courseSql" />,
+    c.classname className 
+    from course cc
+    LEFT JOIN course_load c   ON c.id = cc.class_id
+  </select>
+</mapper>
